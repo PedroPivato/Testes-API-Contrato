@@ -1,0 +1,24 @@
+{
+  "name": "testes-api-contrato",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:consumer": "mocha --experimental-specifier-resolution=node ./cypress/e2e/contratos/categoryConsumer.test.js",
+    "test:provider": "mocha --experimental-specifier-resolution=node ./cypress/e2e/contratos/categoryProvider.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "cypress": "^15.14.0",
+    "mocha": "^11.3.0",
+    "pactum": "^3.9.1",
+    "pactum-matchers": "^1.2.0"
+  },
+  "dependencies": {
+    "pactum-flow-plugin": "^0.1.4"
+  }
+}
