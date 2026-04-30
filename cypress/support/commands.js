@@ -25,8 +25,8 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('adminToken', () => {
-    const email = Cypress.env('email')
-    const password = Cypress.env('password')
+    const email = Cypress.env('EMAIL')
+    const password = Cypress.env('PASSWORD')
 
     return cy.request({
         method: 'POST',
