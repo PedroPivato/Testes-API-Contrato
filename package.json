@@ -13,8 +13,9 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@shelex/cypress-allure-plugin": "^2.41.2",
     "cypress": "^15.14.0",
-    "mocha": "^11.3.0",
+    "mocha": "^11.7.5",
     "pactum": "^3.9.1",
     "pactum-matchers": "^1.2.0"
   },
