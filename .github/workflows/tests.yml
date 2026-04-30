@@ -1,13 +1,15 @@
-name: API e Contrato Tests
+name: testes api + contrato
 
 on:
   push:
     branches: [ main ]
+
   workflow_dispatch:
 
 jobs:
-  cypress-tests:
+  test:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -15,57 +17,24 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Rodar testes Cypress
         continue-on-error: true
-        with:
-          install-command: npm install
-          browser: chrome
-        env:
-          EMAIL: ${{ secrets.EMAIL }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-          CYPRESS_allure: true
+        run: npx cypress run
 
-      - name: Instala Allure 
-        run: npm install -g allure-commandline
+      - name: Rodar testes de contrato
+        continue-on-error: true
+        run: |
+          docker compose up -d
+          sleep 10
+          npm run test:consumer
+          npm run test:provider
+          docker compose down
 
-      - name: Gera relatório Allure
-        run: allure generate allure-results --clean -o allure-report
-
-      - name: Publish Report
+      - name: Publicar resultados no GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: allure-report
-
-  pactum-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Instala dependências
-        run: npm install
-
-      - name: Sobe PactumFlow via Docker
-        run: docker-compose up -d
-
-      - name: Aguarda PactumFlow iniciar
-        run: sleep 10
-
-      - name: Roda testes consumer
-        run: npm run test:consumer
-        continue-on-error: true
-
-      - name: Roda testes provider
-        run: npm run test:provider
-        continue-on-error: true
-        env:
-          EMAIL: ${{ secrets.EMAIL }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-
-      - name: Derruba Docker
-        run: docker-compose down
+          publish_dir: ./cypress
