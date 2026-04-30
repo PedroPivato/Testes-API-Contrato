@@ -25,14 +25,20 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('adminToken', () => {
-    return cy.env(['email', 'password']).then(({ email, password }) => {
-        return cy.request({
-            method: 'POST',
-            url: 'public/authUser',
-            body: { email, password }
-        }).then((response) => {
-            return response.body.data.token
-        })
+    const email = Cypress.env('email')
+    const password = Cypress.env('password')
+
+    if (!email || !password) {
+        throw new Error('EMAIL ou PASSWORD não definidos no ambiente')
+    }
+
+    return cy.request({
+        method: 'POST',
+        url: 'public/authUser',
+        body: { email, password }
+    }).then((response) => {
+        expect(response.status).to.eq(200)
+        return response.body.data.token
     })
 })
 
@@ -40,76 +46,64 @@ Cypress.Commands.add('addCategory', (token, body) => {
     return cy.request({
         method: 'POST',
         url: 'api/addCategory',
-        headers: {
-            authorization: token,
-        },
+        headers: { authorization: token },
         body
     }).then((response) => {
-        expect(response.status).to.eq(200);
+        expect(response.status).to.eq(200)
         return response
-    });
+    })
 })
 
 Cypress.Commands.add('editCategory', (token, id, body) => {
     return cy.request({
         method: 'PUT',
         url: `api/editCategory/${id}`,
-        headers: {
-            authorization: token,
-        },
+        headers: { authorization: token },
         body
     }).then((response) => {
-        expect(response.status).to.eq(200);
-    });
+        expect(response.status).to.eq(200)
+    })
 })
 
 Cypress.Commands.add('deleteCategory', (token, id) => {
     return cy.request({
         method: 'DELETE',
         url: `api/deleteCategory/${id}`,
-        headers: {
-            authorization: token,
-        }
+        headers: { authorization: token }
     }).then((response) => {
-        expect(response.status).to.eq(200);
-    });
+        expect(response.status).to.eq(200)
+    })
 })
 
 Cypress.Commands.add('addProduct', (token, body) => {
     return cy.request({
         method: 'POST',
         url: 'api/addProduct',
-        headers: {
-            authorization: token,
-        },
+        headers: { authorization: token },
         body
     }).then((response) => {
-        expect(response.status).to.eq(200);
+        expect(response.status).to.eq(200)
         return response
-    });
+    })
 })
 
 Cypress.Commands.add('editProduct', (token, id, body) => {
     return cy.request({
         method: 'PUT',
         url: `api/editProduct/${id}`,
-        headers: {
-            authorization: token,
-        },
+        headers: { authorization: token },
         body
     }).then((response) => {
-        expect(response.status).to.eq(200);
-    });
+        expect(response.status).to.eq(200)
+    })
 })
 
 Cypress.Commands.add('deleteProduct', (token, id) => {
     return cy.request({
         method: 'DELETE',
         url: `api/deleteProduct/${id}`,
-        headers: {
-            authorization: token,
-        }
+        headers: { authorization: token }
     }).then((response) => {
-        expect(response.status).to.eq(200);
-    });
+        expect(response.status).to.eq(200)
+    })
 })
