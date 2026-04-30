@@ -23,6 +23,9 @@ jobs:
       - name: Rodar testes Cypress
         continue-on-error: true
         run: npx cypress run
+        env:
+            CYPRESS_EMAIL: ${{ secrets.EMAIL }}
+            CYPRESS_PASSWORD: ${{ secrets.PASSWORD }}
 
       - name: Rodar testes de contrato
         continue-on-error: true

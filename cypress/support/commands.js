@@ -28,10 +28,6 @@ Cypress.Commands.add('adminToken', () => {
     const email = Cypress.env('email')
     const password = Cypress.env('password')
 
-    if (!email || !password) {
-        throw new Error('EMAIL ou PASSWORD não definidos no ambiente')
-    }
-
     return cy.request({
         method: 'POST',
         url: 'public/authUser',
