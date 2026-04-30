@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:consumer": "mocha --experimental-specifier-resolution=node ./cypress/e2e/contratos/categoryConsumer.test.js",
+    "test:consumer": "npx mocha --experimental-specifier-resolution=node ./cypress/e2e/contratos/categoryConsumer.test.js",
     "test:provider": "mocha --experimental-specifier-resolution=node ./cypress/e2e/contratos/categoryProvider.test.js"
   },
   "keywords": [],
